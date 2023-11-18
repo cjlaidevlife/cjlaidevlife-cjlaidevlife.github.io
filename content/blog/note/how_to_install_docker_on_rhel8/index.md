@@ -55,7 +55,7 @@ sudo yum install -y yum-utils
 
 查詢的過程中，發現其實RedHat有提供No-cost RHEL for developers subscription[^4]，所以我立馬去註冊一組帳號來試試。下圖是我菜味十足的訂閱資訊:
 
-![developers subscription](/images/rhel_subscription-manager.jpg)
+![developers subscription](./images/rhel_subscription-manager.jpg)
 
 ### 啟用機器的RHEL訂閱
 至於啟用機器訂閱的方式則可以透過Registration Assistant[^5]這個服務，產生出對應的指令。本次我使用到下面這串指令完成了我的訂閱:

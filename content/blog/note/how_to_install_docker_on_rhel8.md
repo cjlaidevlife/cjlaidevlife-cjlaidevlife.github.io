@@ -47,12 +47,17 @@ sudo yum install -y yum-utils
 
 找了好久，真的很不熟RHEL的生態...所以決定找時間再研究這個議題。為了解決上述這個問題的方式，可以透過下面3個步驟來解決:
 
+{{< callout context="caution" icon="info-triangle" >}}
 前提是機器的網路可以對外連線，若無法對外連線則需要透過其它方式。
+{{< /callout >}}
 
-註冊RedHat Developer帳號
+### 註冊RedHat Developer帳號
+
 查詢的過程中，發現其實RedHat有提供No-cost RHEL for developers subscription[^4]，所以我立馬去註冊一組帳號來試試。下圖是我菜味十足的訂閱資訊:
 
-啟用機器的RHEL訂閱
+![developers subscription](/images/rhel_subscription-manager.jpg)
+
+### 啟用機器的RHEL訂閱
 至於啟用機器訂閱的方式則可以透過Registration Assistant[^5]這個服務，產生出對應的指令。本次我使用到下面這串指令完成了我的訂閱:
 
 ```bash
@@ -60,7 +65,8 @@ subscription-manager register --username <username> --password <password>
 subscription-manager list
 ```
 
-重新下載yum-utils
+### 重新下載yum-utils
+
 再次執行一開始的指令Complete!!!終於順利完成下載了!
 
 ```bash
@@ -70,8 +76,6 @@ sudo yum list --installed |grep -i yum-utils
 ```
 
 解決註冊問題後，我們可以繼續配置安裝Docker套件所需要的設定:
-
-這裡可以透過--enable去開啟特殊版本(nightly、test)的套件，但這邊可以先不需要理會。
 
 ```bash
 sudo yum-config-manager \
@@ -84,6 +88,10 @@ sudo yum repolist
 #rhel-8-for-x86_64-appstream-rpms                                                  Red Hat Enterprise #Linux 8 for x86_64 - AppStream (RPMs)
 #rhel-8-for-x86_64-baseos-rpms                                                     Red Hat Enterprise #Linux 8 for x86_64 - BaseOS (RPMs)
 ```
+
+{{< callout context="note" icon="info-circle" >}}
+這裡可以透過--enable去開啟特殊版本(nightly、test)的套件，但這邊可以先不需要理會。
+{{< /callout >}}
 
 ## 2.2 安裝Docker套件
 
@@ -134,9 +142,8 @@ containerd.io
 
 原來我又粗心了，以為新的作業系統就不會有套件衝突問題，原來RHEL8.5預設會安裝podman、runc，套件間會產生衝突。所以這次為了保守起見，我全部移除後再重新安裝，這次終於沒有怪怪的訊息了:
 
-移除套件
-
 ```bash
+# 移除套件
 sudo yum remove docker \
 docker-client \
 docker-client-latest \

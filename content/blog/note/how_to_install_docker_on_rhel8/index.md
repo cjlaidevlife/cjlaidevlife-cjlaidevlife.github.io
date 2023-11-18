@@ -6,8 +6,8 @@ date: 2023-11-18 13:13:56.431 +0800
 lastmod: 2023-11-18 13:13:56.431 +0800
 draft: false
 weight: 50
-categories: []
-tags: []
+categories: [Note]
+tags: [Job, Docker, Linux]
 contributors: []
 pinned: false
 homepage: false

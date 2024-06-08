@@ -11,6 +11,7 @@ tags: [Job, Docker, MSSQL, VS Code, Audit File]
 contributors: []
 pinned: false
 homepage: false
+toc: true
 seo:
   title: "" # custom title (optional)
   description: "" # custom description (recommended)
@@ -22,7 +23,9 @@ seo:
 
 直接打開從MSSQL備份下來的`*.sqlaudit`檔案，會因為該檔案經過MSSQL編碼過，而出現無法直接識別的亂碼文件。
 
+{{< details "(Click Me) MSQL SQLAudit File Row Content" >}}
 <img src="./images/sqlaudit_file_row_content.png" alt="MSQL SQLAudit File Row Content">
+{{< /details >}}
 
 ---
 
@@ -42,13 +45,13 @@ seo:
 
 ## 3.1 低成本取得MSSQL {#3-1}
 
-{{< callout context="note" icon="info-circle" >}}
+{{< callout context="tip" title="Why Use a Container?" icon="outline/rocket" >}}
 透過docker container的技術，我們可以減少取得測試用資料庫所需的成本。
 {{< /callout >}}
 
 首先將下面yaml格式的內容存成`docker-compose.yml`:
 
-```yaml
+```yaml {lineNos=true hl_lines=[1, 5, 8, 10] title="docker-compose.yml"}
 # Version: "3.9"
 services:
   db:
@@ -65,12 +68,12 @@ services:
 
 * **version**: 內容會將他註解掉是因為，docker最新的官方文件已經將version這個element標示為obsolete[^2]，考量到有些沒有更新的docker compose的使用者而以註解的形式保留。
 * **platform**: 這個設定並非必要，主要是我在執行時所使用的設備是arm cpu，所以需要指定platform[^3]。
-* **environment**: 在Linux上可以設定的mssql環境變數可以參考官網文件[^4]。
 * **volumes**: 會掛載當前路徑到container內，所以`*.sqlaudit`檔案也需要放在當前目錄下。
+* **environment**: 在Linux上可以設定的mssql環境變數可以參考官網文件[^4]。
 
 接下來只需要透過docker compose的指令就可以取得測試用資料庫:
 
-```bash
+```bash {lineNos=true title="bash"}
 docker compose up -d
 ```
 
@@ -78,8 +81,8 @@ docker compose up -d
 
 ## 3.2 透過VS Code連線到MSSQL
 
-{{< callout context="note" icon="info-circle" >}}
-目前還是習慣在vs code執行各項作業，所以工具選型才會是透過vs code + extension的方式進行。如果手邊有SSMS或其他工具可以連線到MSSQL，那就可以忽略這個小節。
+{{< callout context="tip" title="Why Use a VS Code?" icon="outline/rocket" >}}
+因為筆者目前還是習慣在vs code執行各項作業，所以工具選型才會是透過vs code + extension的方式進行。如果手邊有SSMS或其他工具可以連線到MSSQL，那就可以忽略這個小節。
 {{< /callout >}}
 
 安裝僅需要打開vscode找到MSSQL的extension[^5]，按下install即可:
@@ -88,7 +91,7 @@ docker compose up -d
 
 接下來可以嘗試連線到步驟[3.1 低成本取得MSSQL](#3-1)所建立的資料庫:
 
-{{< callout context="note" icon="info-circle" >}}
+{{< callout context="note" icon="outline/info-circle" >}}
 除了hostname是連線到localhost以外，剩下的設定都是依照步驟[3.1 低成本取得MSSQL](#3-1)，啟動資料庫時傳入的參數而定。
 {{< /callout >}}
 
@@ -102,11 +105,11 @@ docker compose up -d
 
 ## 3.3 直接在VS Code上讀取sqlaudit檔
 
-{{< callout context="caution" icon="info-triangle" >}}
+{{< callout context="caution" icon="outline/info-triangle" >}}
 這邊要注意sqlaudit的檔案位置是我們透過docker volume的方式，將`*.sqlaudit`檔案所在路徑mount到mssql的container內。
 {{< /callout >}}
 
-```sql
+```sql {lineNos=true hl_lines=1 title="sql"}
 DECLARE @filePath NVARCHAR(260) = N'/auditfiles/xxx.sqlaudit';
 
 SELECT *
@@ -119,7 +122,7 @@ FROM sys.fn_get_audit_file(@filePath, DEFAULT, DEFAULT);
 
 ---
 
-## 4. 總結
+# 4. 總結
 
 撰寫這篇文章時，內心其實有點猶豫。雖然有ChatGPT可以輔助，但要將這次內容的知識點逐一點到說明真的很困難!這次使用的解決方法有需多前置的知識需要了解，例如: Docker Compose是什麼?VS Code怎麼用...等等。
 
@@ -128,6 +131,10 @@ FROM sys.fn_get_audit_file(@filePath, DEFAULT, DEFAULT);
 最後有發現，其實也可以透Hex Editor[^6]之類的工具去確認編碼，然後再轉成可讀取的編碼就好，但是內容格式有點難讀就是了。這篇文章暫時就不追那麼深，希望未來有機會再去往下探索，感謝各位看官收看，希望有機會收到更多的回饋，謝謝。
 
 <img src="./images/use_hex_tool_decoded.png" alt="Reading MSSQL SQLAudit File By Hex Editor">
+
+---
+
+# 5. 參考資料
 
 [^1]: [連線到 SQL Server 資料庫引擎 - SQL Server | Microsoft Learn](https://learn.microsoft.com/zh-tw/sql/sql-server/connect-to-database-engine?view=sql-server-ver16)
 [^2]: [Version top-level element (obsolete)](https://docs.docker.com/compose/compose-file/04-version-and-name/#version-top-level-element-obsolete)

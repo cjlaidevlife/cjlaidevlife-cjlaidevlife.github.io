@@ -5,10 +5,10 @@
 
 [[social]]
   name = "LinkedIn"
-  url = "https://www.linkedin.com/in/henkverlinde/"
+  url = "https://www.linkedin.com/in/laichunjing"
   weight = 20
 
 [[social]]
-  name = "Twitter"
-  url = "https://twitter.com/henkverlinde"
+  name = "CakeResume"
+  url = "https://www.cakeresume.com/cjlai?locale=zh-TW"
   weight = 30

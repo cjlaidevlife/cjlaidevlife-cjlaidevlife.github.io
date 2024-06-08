@@ -7,10 +7,11 @@ images = ["cover.png"]
 mainSections = ["docs"]
 
 [social]
-  twitter = "getdoks"
+  twitter = "cjlai"
 
 # Doks (@hyas/doks-core)
 [doks]
+
   # Color mode
   colorMode = "auto" # auto (default), light or dark
   colorModeToggler = true # true (default) or false (this setting is only relevant when colorMode = auto)
@@ -45,7 +46,7 @@ mainSections = ["docs"]
 
   # Nav
   sectionNav = ["docs"] # ["docs"] (default) or list of sections (e.g. ["docs", "guides"])
-  toTopButton = false # false (default) or true
+  toTopButton = true # false (default) or true
   breadcrumbTrail = false # false (default) or true
   headlineHash = true # true (default) or false
   scrollSpy = true # true (default) or false
